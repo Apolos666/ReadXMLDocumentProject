@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,6 +14,8 @@ namespace ReadXMLDocumentProject
 {
     public partial class MainForm : Form
     {
+        private string filePath;
+
         public MainForm()
         {
             InitializeComponent();
@@ -22,7 +23,8 @@ namespace ReadXMLDocumentProject
 
         private void SelectFileBtn_Click(object sender, EventArgs e)
         {
-            string filePath = OpenFileDialog();
+            DataListBox.Items.Clear();
+            filePath = OpenFileDialog();
             if (filePath != "")
             {
                 ParseXmlFile(filePath, DataListBox);
@@ -85,7 +87,68 @@ namespace ReadXMLDocumentProject
 
         private void AddToDatabaseBtn_Click(object sender, EventArgs e)
         {
-                  
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                // Thực hiện đọc và thêm dữ liệu vào cơ sở dữ liệu
+                try
+                {
+                    string connectionString = "Data Source=LAPTOP-F79T3I7P;Initial Catalog=dbReadXMLDocument;Integrated Security=True";
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        // Thực hiện tạo bảng và thêm dữ liệu
+                        CreateTableAndInsertData(connection, filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
+        private void CreateTableAndInsertData(SqlConnection connection, string filePath)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filePath);
+
+            // Lấy tên bảng từ tên root node trong XML
+            string tableName = doc.DocumentElement.Name;
+
+            // Tạo bảng nếu chưa tồn tại
+            string createTableQuery = $"IF OBJECT_ID('{tableName}', 'U') IS NULL CREATE TABLE {tableName} (ID INT IDENTITY(1,1) PRIMARY KEY);";
+            using (SqlCommand cmd = new SqlCommand(createTableQuery, connection))
+            {
+                cmd.ExecuteNonQuery();
+            }
+
+            // Thêm cột và dữ liệu từ XML vào bảng
+            AddNodesToTable(doc.DocumentElement, connection, tableName, 0);
+        }
+
+        private void AddNodesToTable(XmlNode node, SqlConnection connection, string tableName, int level)
+        {
+            // Implement logic để thêm cột và dữ liệu vào bảng
+            // Dựa vào tên node và giá trị của nó
+
+            // Lưu ý: Bạn cần xử lý loại dữ liệu của cột (ví dụ: varchar, int, ...) dựa trên giá trị của node
+            // Ở đây tôi giả sử mọi giá trị đều là varchar(255)
+
+            string columnName = node.Name;
+            string columnValue = (node.FirstChild != null && node.FirstChild.NodeType == XmlNodeType.Text) ? node.FirstChild.Value : "";
+
+            string insertQuery = $"INSERT INTO {tableName} ({columnName}) VALUES ('{columnValue}');";
+            using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+            {
+                cmd.ExecuteNonQuery();
+            }
+
+            foreach (XmlNode childNode in node.ChildNodes)
+            {
+                AddNodesToTable(childNode, connection, tableName, level + 1);
+            }
         }
     }
 }
