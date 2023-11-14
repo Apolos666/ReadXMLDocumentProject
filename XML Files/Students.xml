@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<students>
+	<student>
+		<name>Nguyễn Văn A</name>
+		<id>12345</id>
+		<gender>Male</gender>
+		<dob>2000-01-01</dob>
+		<mathMark>8</mathMark>
+		<literatureMark>9</literatureMark>
+		<diachi>
+			<tinh>Quang Binh</tinh>
+			<tinh>Nghe An</tinh>
+			<tinh>Binh Dinh</tinh>
+		</diachi>
+	</student>
+
+	<student>
+		<name>Trần Thị B</name>
+		<id>23456</id>
+		<gender>Female</gender>
+		<dob>1999-02-03</dob>
+		<mathMark>9</mathMark>
+		<literatureMark>7</literatureMark>
+		<diachi>
+			<tinh>Nghe An</tinh>
+		</diachi>
+	</student>
+
+	<student>
+		<name>Lê Văn C</name>
+		<id>34567</id>
+		<gender>Male</gender>
+		<dob>1998-03-05</dob>
+		<mathMark>7</mathMark>
+		<literatureMark>8</literatureMark>
+		<diachi>
+			<tinh>Ha Tinh</tinh>
+		</diachi>
+	</student>
+</students>
