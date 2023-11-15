@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace ReadXMLDocumentProject
 {
     partial class MainForm
@@ -36,6 +38,7 @@ namespace ReadXMLDocumentProject
             this.DataListBox = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.AddToDatabaseBtn = new System.Windows.Forms.Button();
+            this.GenerateJSON = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -105,11 +108,23 @@ namespace ReadXMLDocumentProject
             this.AddToDatabaseBtn.UseVisualStyleBackColor = true;
             this.AddToDatabaseBtn.Click += new System.EventHandler(this.AddToDatabaseBtn_Click);
             // 
+            // GenerateJSON
+            // 
+            this.GenerateJSON.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.GenerateJSON.Location = new System.Drawing.Point(667, 381);
+            this.GenerateJSON.Name = "GenerateJSON";
+            this.GenerateJSON.Size = new System.Drawing.Size(146, 61);
+            this.GenerateJSON.TabIndex = 6;
+            this.GenerateJSON.Text = "Generate JSON File";
+            this.GenerateJSON.UseVisualStyleBackColor = true;
+            this.GenerateJSON.Click += new System.EventHandler(this.GenerateJSON_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1202, 789);
+            this.Controls.Add(this.GenerateJSON);
             this.Controls.Add(this.AddToDatabaseBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.DataListBox);
@@ -121,7 +136,7 @@ namespace ReadXMLDocumentProject
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        }
+        }  
 
         #endregion
 
@@ -132,6 +147,7 @@ namespace ReadXMLDocumentProject
         private System.Windows.Forms.ListBox DataListBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button AddToDatabaseBtn;
+        private System.Windows.Forms.Button GenerateJSON;
     }
 }
 
