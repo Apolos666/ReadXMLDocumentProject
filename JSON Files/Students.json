@@ -3,44 +3,25 @@
     "@version": "1.0",
     "@encoding": "UTF-8"
   },
-  "students": {
-    "student": [
+  "DanhSachSinhVien": {
+    "SinhVien": [
       {
-        "name": "Nguyễn Văn A",
-        "id": "12345",
-        "gender": "Male",
-        "dob": "2000-01-01",
-        "mathMark": "8",
-        "literatureMark": "9",
-        "diachi": {
-          "tinh": [
-            "Quang Binh",
-            "Nghe An",
-            "Binh Dinh"
-          ]
-        }
+        "MaSV": "1",
+        "HoTen": "Nguyen Van A",
+        "NgaySinh": "2000-01-01",
+        "Khoa": "CNTT"
       },
       {
-        "name": "Trần Thị B",
-        "id": "23456",
-        "gender": "Female",
-        "dob": "1999-02-03",
-        "mathMark": "9",
-        "literatureMark": "7",
-        "diachi": {
-          "tinh": "Nghe An"
-        }
+        "MaSV": "2",
+        "HoTen": "Tran Thi B",
+        "NgaySinh": "1999-05-15",
+        "Khoa": "Kinh Te"
       },
       {
-        "name": "Lê Văn C",
-        "id": "34567",
-        "gender": "Male",
-        "dob": "1998-03-05",
-        "mathMark": "7",
-        "literatureMark": "8",
-        "diachi": {
-          "tinh": "Ha Tinh"
-        }
+        "MaSV": "3",
+        "HoTen": "Le Van C",
+        "NgaySinh": "2001-03-10",
+        "Khoa": "Ngon Ngu Anh"
       }
     ]
   }

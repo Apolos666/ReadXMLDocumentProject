@@ -85,66 +85,7 @@ namespace ReadXMLDocumentProject
                 DeQuyAddNodes(childNode, listbox, level + 1);
             }
         }
-
-        private void AddToDatabaseBtn_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                try
-                {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(filePath);
-
-                    // Assuming your connection string is something like this:
-                    string connectionString = "Data Source=LAPTOP-F79T3I7P;Initial Catalog=dbReadXMLDocument;Integrated Security=True";
-
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-
-                        foreach (XmlNode studentNode in doc.SelectNodes("/students/student"))
-                        {
-                            string name = studentNode.SelectSingleNode("name").InnerText;
-                            string id = studentNode.SelectSingleNode("id").InnerText;
-                            string gender = studentNode.SelectSingleNode("gender").InnerText;
-                            string dob = studentNode.SelectSingleNode("dob").InnerText;
-                            string mathMark = studentNode.SelectSingleNode("mathMark").InnerText;
-                            string literatureMark = studentNode.SelectSingleNode("literatureMark").InnerText;
-
-                            // If diachi has child nodes, concatenate them
-                            string diachi = string.Join(", ", studentNode.SelectNodes("diachi/tinh").Cast<XmlNode>().Select(x => x.InnerText));
-
-                            // Assuming the table structure is created with the mentioned columns
-                            string insertQuery = "INSERT INTO student (name, id, gender, dob, mathMark, literatureMark, diachi) " +
-                                                 "VALUES (@name, @id, @gender, @dob, @mathMark, @literatureMark, @diachi)";
-
-                            using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
-                            {
-                                cmd.Parameters.AddWithValue("@name", name);
-                                cmd.Parameters.AddWithValue("@id", id);
-                                cmd.Parameters.AddWithValue("@gender", gender);
-                                cmd.Parameters.AddWithValue("@dob", dob);
-                                cmd.Parameters.AddWithValue("@mathMark", mathMark);
-                                cmd.Parameters.AddWithValue("@literatureMark", literatureMark);
-                                cmd.Parameters.AddWithValue("@diachi", diachi);
-
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-
-                        MessageBox.Show("Data added to the database successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error adding data to the database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please select an XML file first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        
 
         private void GenerateJSON_Click(object sender, EventArgs e)
         {
@@ -187,6 +128,52 @@ namespace ReadXMLDocumentProject
             return json;
         }
 
+        private void AddToDatabaseBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    string connectionString = "Data Source=LAPTOP-F79T3I7P;Initial Catalog=dbReadXMLDocument;Integrated Security=True";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+          
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(filePath);
+                       
+                        foreach (XmlNode node in doc.SelectNodes("/DanhSachSinhVien/SinhVien"))
+                        {
+                            int maSV = int.Parse(node.SelectSingleNode("MaSV").InnerText);
+                            string hoTen = node.SelectSingleNode("HoTen").InnerText;
+                            DateTime ngaySinh = DateTime.Parse(node.SelectSingleNode("NgaySinh").InnerText);
+                            string khoa = node.SelectSingleNode("Khoa").InnerText;
+                           
+                            string insertQuery = "INSERT INTO SinhVien (MaSV, HoTen, NgaySinh, Khoa) VALUES (@MaSV, @HoTen, @NgaySinh, @Khoa)";
+                            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                            {
+                                command.Parameters.AddWithValue("@MaSV", maSV);
+                                command.Parameters.AddWithValue("@HoTen", hoTen);
+                                command.Parameters.AddWithValue("@NgaySinh", ngaySinh);
+                                command.Parameters.AddWithValue("@Khoa", khoa);
+
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        MessageBox.Show("Data added to the database successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select an XML file first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error adding data to the database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 
